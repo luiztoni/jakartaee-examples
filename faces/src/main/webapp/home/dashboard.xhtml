@@ -1,0 +1,83 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+<h:body>
+<ui:composition template="/WEB-INF/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form>
+            <h:commandButton id="logout" value="logout" action="#{userFaces.logout}" />
+        </h:form>
+        <h:form id="panel" rendered="#{not empty productFaces.products}">
+            <h:dataTable value="#{productFaces.products}" var="product">
+                <h:column><f:facet name="header">ID</f:facet>#{product.id}</h:column>
+                <h:column><f:facet name="header">Name</f:facet>#{product.name}</h:column>
+                <h:column>
+                    <h:commandButton value="show" action="#{productFaces.show(product)}" />
+                </h:column>
+                <h:column>
+                    <h:commandButton value="edit" action="#{productFaces.edit(product)}" />
+                </h:column>
+                <h:column>
+                    <h:commandButton value="delete" action="#{productFaces.delete(product)}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <h:panelGroup rendered="#{empty productFaces.products}">
+            <p>No product! Please, add new product.</p>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{!productFaces.edit}">
+            <h3>Add product</h3>
+            <h:form>
+                <p>Name: <h:inputText id="name" value="#{productFaces.product.name}" validator="#{productFaces.validate}"
+                                      required="true"/>
+                    <h:message for="name" style="color:red" />
+                </p>
+                <p>Description: <h:inputText value="#{productFaces.product.description}" /></p>
+                <p>
+                    <h:commandButton value="add" action="#{productFaces.store}" />
+                    <h:commandButton value="reset" action="#{productFaces.cancel}" />
+                </p>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{productFaces.edit}">
+            <h3>Edit product #{productFaces.product.id}</h3>
+            <h:form>
+                <p>Name: <h:inputText value="#{productFaces.product.name}" /></p>
+                <p>Description: <h:inputText value="#{productFaces.product.description}" /></p>
+                <h:inputHidden value = "#{productFaces.product.id}"/>
+                <p>
+                    <h:commandButton value="save"  action="#{productFaces.update()}">
+                        <!--f:param name="id" value="#{gameBean.game.id}" /-->
+                    </h:commandButton>
+                    <h:commandButton value="cancel" action="#{productFaces.cancel}" />
+                </p>
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{productFaces.show}">
+            <h3>Show product #{productFaces.product.id}</h3>
+            <h:form>
+                <p>Name: <h:inputText value="#{productFaces.product.name}" disabled="true"/></p>
+                <p>Description: <h:inputText value="#{productFaces.product.description}" disabled="true"/></p>
+                <p>
+                    <h:commandButton value="cancel" action="#{productFaces.cancel}" />
+                </p>
+            </h:form>
+        </h:panelGroup>
+        <p>
+            <a href="/">Go back to index</a>
+        </p>
+
+    </ui:define>
+
+</ui:composition>
+</h:body>
+</html>

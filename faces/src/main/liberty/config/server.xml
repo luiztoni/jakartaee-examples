@@ -1,0 +1,20 @@
+<server description="Sample Faces server">
+	<featureManager>
+		<feature>webProfile-9.1</feature>
+	</featureManager>
+	<variable name="default.http.port" defaultValue="5050" />
+	<variable name="default.https.port" defaultValue="5051" />
+	<httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+		id="defaultHttpEndpoint" host="*" />
+	<library id="mysqlLibrary">
+		<fileset id="MySqlFileset" dir="${shared.resource.dir}"
+			includes="mysql-connector-j-8.0.32.jar" />
+	</library>
+	<dataSource jndiName="jdbc/local-mysql" transactional="false">
+		<jdbcDriver libraryRef="mysqlLibrary" />
+		<properties serverName="localhost" portNumber="3306"
+			databaseName="canguru"
+			user="root"
+			password="myroot" />
+	</dataSource>
+</server>

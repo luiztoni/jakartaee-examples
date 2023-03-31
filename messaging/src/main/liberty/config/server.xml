@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="jms producer and consumer">
+	<featureManager>
+		<feature>jakartaee-9.1</feature>
+	</featureManager>
+	<applicationManager autoExpand="true" />
+	<applicationMonitor updateTrigger="mbean" />
+	<jmsConnectionFactory jndiName="jms/cf"
+		connectionManagerRef="cm">
+		<properties.wasJms
+			remoteServerAddress="localhost:7276:BootStrapBasicMessaging"
+			tmqJmsnsportType="CLIENT" />
+	</jmsConnectionFactory>
+	<connectionManager id="cm" maxPoolSize="10" />
+	<jmsQueue id="jms/q" jndiName="jms/q">
+		<properties.wasJms queueName="DEV.QUEUE.1" />
+	</jmsQueue>
+	<jmsTopic id="jms/t" jndiName="jms/t">
+		<properties.wasJms topicName="DEV.TOPIC.1"
+			topicSpace="ExpressNonPersistent.Topic.Space"
+			deliveryMode="NonPersistent" timeToLive="60000" priority="1"
+			readAhead="AsConnection" />
+	</jmsTopic>
+	<jmsActivationSpec id="caranguejo/QueueListener">
+		<properties.wasJms destinationRef="jms/q"
+			destinationType="jakarta.jms.Queue"
+			remoteServerAddress="localhost:7276:BootStrapBasicMessaging" />
+	</jmsActivationSpec>
+	<jmsActivationSpec id="caranguejo/TopicListener">
+		<properties.wasJms destinationRef="jms/t"
+			destinationType="jakarta.jms.Topic"
+			remoteServerAddress="localhost:7276:BootStrapBasicMessaging" />
+	</jmsActivationSpec>
+	<httpEndpoint id="defaultHttpEndpoint" httpPort="9080"
+		httpsPort="9443" host="*" />
+	<applicationManager autoExpand="true" />
+	<webApplication contextRoot="/"
+		location="messaging.war" />
+	<persistentExecutor
+		id="defaultEJBPersistentTimerExecutor" retryInterval="10s"
+		retryLimit="3" taskStoreRef="EJBTimerDatabaseStore" />
+	<logging consoleFormat="simple" />
+</server>

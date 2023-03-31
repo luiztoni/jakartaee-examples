@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="jms broker">
+
+    <featureManager>
+        <feature>messagingServer-3.0</feature>
+    </featureManager>
+
+    <applicationManager autoExpand="true" />
+    <applicationMonitor updateTrigger="mbean" />
+
+    <messagingEngine>
+        <queue id="DEV.QUEUE.1" />
+        <topicSpace id="ExpressNonPersistent.Topic.Space" 
+            forceReliability="ExpressNonPersistent" 
+            maintainStrictOrder="false"
+            maxMessageDepth="5000">
+        </topicSpace>
+    </messagingEngine>
+    
+    <wasJmsEndpoint id="InboundJmsCommsEndpoint" host="*" wasJmsPort="7276" wasJmsSSLPort="7286" />
+
+ 	<logging consoleLogLevel="AUDIT" copySystemStreams="true" maxFiles="10" logDirectory="/waslogs" traceSpecification="*=info"/>
+</server>

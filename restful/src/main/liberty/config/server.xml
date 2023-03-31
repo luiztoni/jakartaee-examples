@@ -1,0 +1,31 @@
+<server description="restful">
+	<featureManager>
+		<feature>restfulWS-3.0</feature>
+		<feature>jsonb-2.0</feature>
+		<feature>jsonp-2.0</feature>
+		<feature>cdi-3.0</feature>
+		<feature>persistence-3.0</feature>
+		
+		<!-- https://openliberty.io/docs/latest/reference/feature/appSecurity-4.0.html -->
+		<feature>appSecurity-4.0</feature>
+		
+		<!-- https://openliberty.io/docs/latest/reference/feature/beanValidation-3.0.html -->
+		<feature>beanValidation-3.0</feature>
+	</featureManager>
+	<variable name="default.http.port" defaultValue="5050" />
+	<variable name="default.https.port" defaultValue="5051" />
+	<httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+		id="defaultHttpEndpoint" host="*" />
+	<application location="restful.war" type="war" context-root="/"></application>
+	<library id="mysqlLibrary">
+		<fileset id="MySqlFileset" dir="${shared.resource.dir}"
+			includes="mysql-connector-j-8.0.32.jar" />
+	</library>
+	<dataSource jndiName="jdbc/local-mysql" transactional="false">
+		<jdbcDriver libraryRef="mysqlLibrary" />
+		<properties serverName="localhost" portNumber="3306"
+			databaseName="calango"
+			user="root"
+			password="myroot" />
+	</dataSource>
+</server>

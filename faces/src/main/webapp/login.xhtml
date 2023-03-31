@@ -1,0 +1,24 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <h:form>
+        <p:messages id="messages" />
+        <p:panelGrid columns="2">
+            <p:outputLabel for="email" value="E-mail:" />
+            <p:inputText id="email" value="#{userFaces.email}" />
+
+            <p:outputLabel for="password" value="Password:" />
+            <p:password id="password" value="#{userFaces.password}" />
+
+            <p:commandButton value="Login" icon="ui-icon-star" action="#{userFaces.login}" ajax="false">
+            </p:commandButton>
+        </p:panelGrid>
+    </h:form>
+</h:body>
+</html>
