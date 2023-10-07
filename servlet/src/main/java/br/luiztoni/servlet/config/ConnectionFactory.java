@@ -12,7 +12,7 @@ public class ConnectionFactory {
 	private ConnectionFactory() {}
 	
 	public static Connection getConnection() {
-		String url ="jdbc:mariadb://localhost:3306/cocada";     
+		String url ="jdbc:mariadb://localhost:3306/servlet";
 		String user = "root";    
 		String password = "myroot";
 		try {

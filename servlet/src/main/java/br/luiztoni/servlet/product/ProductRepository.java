@@ -18,8 +18,7 @@ public class ProductRepository extends Repository<Product, Integer> {
 	public void create(Product product) {
 		this.openConnection();
 		String update = "INSERT INTO PRODUCTS (NAME, DESCRIPTION, PRICE) VALUES (?, ?, ?)";
-		try {
-			PreparedStatement statement = connection.prepareStatement(update);
+		try (PreparedStatement statement = connection.prepareStatement(update)) {
 			statement.setString(1, product.getName());
 			statement.setString(2, product.getDescription());
 			statement.setDouble(3, product.getPrice());
@@ -34,8 +33,7 @@ public class ProductRepository extends Repository<Product, Integer> {
 	public Product read(Integer id) {
 		String query = "SELECT * FROM PRODUCTS WHERE ID = ?";
 		this.openConnection();
-		try {
-			PreparedStatement statement = connection.prepareStatement(query);
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.first()) {
@@ -45,6 +43,7 @@ public class ProductRepository extends Repository<Product, Integer> {
 				product.setDescription(resultSet.getString("DESCRIPTION"));
 				product.setPrice(resultSet.getDouble("PRICE"));
 				this.closeConnection();
+				resultSet.close();
 				return product;
 			}
 		} catch (SQLException e) {
@@ -57,8 +56,7 @@ public class ProductRepository extends Repository<Product, Integer> {
 	public void update(Product product) {
 		String update = "UPDATE PRODUCTS SET NAME = ?, DESCRIPTION = ?, PRICE = ?  WHERE ID = ?";
 		this.openConnection();
-		try {
-			PreparedStatement statement = connection.prepareStatement(update);
+		try (PreparedStatement statement = connection.prepareStatement(update)) {
 			statement.setString(1, product.getName());
 			statement.setString(2, product.getDescription());
 			statement.setDouble(3, product.getPrice());
@@ -79,6 +77,7 @@ public class ProductRepository extends Repository<Product, Integer> {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 			this.closeConnection();
+			statement.close();
 		} catch (SQLException e) {
 			logger.severe("Error in delete: "+e.getMessage());
 		}
@@ -102,6 +101,8 @@ public class ProductRepository extends Repository<Product, Integer> {
 				products.add(product);
 			}
 			this.closeConnection();
+			statement.close();
+			resultSet.close();
 			return products;
 		} catch (SQLException e) {
 			logger.severe("Error in index: "+e.getMessage());

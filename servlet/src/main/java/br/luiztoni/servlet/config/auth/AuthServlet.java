@@ -2,6 +2,8 @@ package br.luiztoni.servlet.config.auth;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -16,19 +18,21 @@ public class AuthServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -535527126349259049L;
 
+	private static final Logger LOGGER = Logger.getLogger(AuthServlet.class.getName());
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Chamei a servlet 1");
-		boolean isLogin = request.getRequestURI().endsWith("login");
-		boolean isRegister = request.getRequestURI().endsWith("register");
+		LOGGER.log(Level.INFO, "Acessando AuthServlet");
+		boolean isLoginPage = request.getRequestURI().endsWith("login");
+		boolean isRegisterPage = request.getRequestURI().endsWith("register");
 		boolean isLogout = request.getRequestURI().endsWith("logout");
 		boolean success = false;
 		String errorPage = null;
-		if (isLogin) {
+		if (isLoginPage) {
 			success = this.login(request, response);
 			errorPage = "/views/login.jsp";
 		}
-		if (isRegister) {
+		if (isRegisterPage) {
 			success = this.register(request, response);
 			errorPage = "/views/register.jsp";
 		}
@@ -61,13 +65,14 @@ public class AuthServlet extends HttpServlet {
 			page = "/views/login.jsp";
 		}
 		if (isRegister) {
-			page = "/views/register.jsp";;
+			page = "/views/register.jsp";
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.include(request, response);
 	}
 	
 	private boolean register(HttpServletRequest request, HttpServletResponse response) {
+		LOGGER.log(Level.INFO, "Acessando AuthServlet#register");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		UserRepository repository = new UserRepository();
@@ -86,7 +91,7 @@ public class AuthServlet extends HttpServlet {
 	}
 	
 	private boolean login(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("chamei o login");
+		LOGGER.log(Level.INFO, "Acessando AuthServlet#login");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		UserRepository repository = new UserRepository();

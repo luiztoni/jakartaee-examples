@@ -1,15 +1,16 @@
-CREATE DATABASE cocada;
-USE COCADA;
+CREATE DATABASE servlet;
+USE servlet;
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE PRODUCTS (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  price DECIMAL(10,2) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  name VARCHAR(20) DEFAULT NULL,
+);
 
-CREATE TABLE `products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` float(24) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE USERS (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  email VARCHAR(20) NOT NULL,
+  password VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
