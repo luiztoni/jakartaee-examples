@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @WebServlet({"/admin/*", "/"})
 public class RouterServlet extends HttpServlet {
 
-	private static final Logger LOGGER = Logger.getLogger(AuthServlet.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(RouterServlet.class.getName());
 
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) {
