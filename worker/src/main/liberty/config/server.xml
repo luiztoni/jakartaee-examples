@@ -2,8 +2,10 @@
 <server description="ejb timer">
 
 	<featureManager>
-		<feature>enterpriseBeans-4.0</feature>
-		<feature>restfulWS-3.0</feature>
+        <!-- https://openliberty.io/docs/latest/reference/feature/enterpriseBeans-4.0.html -->
+        <feature>enterpriseBeans-4.0</feature>
+        <!-- https://openliberty.io/docs/latest/reference/feature/restfulWS-3.1.html -->
+        <feature>restfulWS-3.1</feature>
 	</featureManager>
 	<applicationManager autoExpand="true" />
 	<applicationMonitor updateTrigger="mbean" />
