@@ -43,4 +43,8 @@ public class Category extends AbstractEntity<Long> {
     
 	public Category() {
 	}
+
+	public Category(Long id) {
+		this.setId(id);
+	}
 }

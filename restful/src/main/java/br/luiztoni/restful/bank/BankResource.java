@@ -4,7 +4,6 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -17,10 +16,8 @@ import jakarta.ws.rs.core.Response;
 @RequestScoped
 @Path("/banks")
 public class BankResource {
-	
 
 	@GET
-    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
     public Response index() {
@@ -29,12 +26,11 @@ public class BankResource {
 		
 		String payload = response.readEntity(String.class);
 		Jsonb jsonb = JsonbBuilder.create();
-		Bank[] actual = jsonb.fromJson(payload, Bank[].class);
-        return Response.ok(actual).build();
+		Bank[] banks = jsonb.fromJson(payload, Bank[].class);
+        return Response.ok(banks).build();
     }
 	
 	@GET
-    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	@PermitAll
@@ -44,7 +40,12 @@ public class BankResource {
 		
 		String payload = response.readEntity(String.class);
 		Jsonb jsonb = JsonbBuilder.create();
-		Bank actual = jsonb.fromJson(payload, Bank.class);
-        return Response.ok(actual).build();
+		Bank bank = jsonb.fromJson(payload, Bank.class);
+
+		response.close();
+		client.close();
+        return Response.ok(bank).build();
     }
+
+
 }

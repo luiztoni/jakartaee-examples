@@ -14,9 +14,19 @@ public class CategoryRepository extends AbstractRepository<Category> {
 
     @Deprecated
     public List<Category> listAll() {
-        List<Category> studios = manager.createNamedQuery("Category.index", Category.class).getResultList();
-        return studios;
+        List<Category> categories = manager.createNamedQuery("Category.index", Category.class).getResultList();
+        return categories;
     }
+
+	public Category findByNameLike(String name) {
+		Category category;
+		try {
+			category = (Category) manager.createQuery("SELECT c FROM Category c WHERE c.name like :name").setParameter("name", name).getSingleResult();
+		} catch (Exception exception) {
+			return null;
+		}
+		return category;
+	}
     
 }
 

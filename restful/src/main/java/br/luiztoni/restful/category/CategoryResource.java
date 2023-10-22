@@ -34,6 +34,7 @@ public class CategoryResource {
     @GET
     @Path("{id}")
     @Transactional
+	@RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
     public Response show(@PathParam("id") int id) {
         Category category = repository.read(id);
@@ -44,6 +45,7 @@ public class CategoryResource {
     }
 
     @POST
+	@RolesAllowed("admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(Category category) {
@@ -52,6 +54,7 @@ public class CategoryResource {
     }
 
     @PUT
+	@RolesAllowed("admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(Category category) {
@@ -61,6 +64,7 @@ public class CategoryResource {
 
     @DELETE
     @Path("{id}")
+	@RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") long id) {
         repository.delete(id);

@@ -22,8 +22,14 @@ public class Product extends AbstractEntity<Long> {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+	public Product(String name, String description, Category category) {
+		this.name = name;
+		this.description = description;
+		this.category = category;
+	}
 
-    public String getName() {
+	public Product() {}
+	public String getName() {
         return name;
     }
 

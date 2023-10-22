@@ -3,6 +3,7 @@ package br.luiztoni.restful.product;
 import java.io.File;
 import java.util.List;
 
+import br.luiztoni.restful.category.Category;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -27,7 +28,6 @@ public class ProductResource {
 	private ProductRepository repository;
 
 	@GET
-	@RolesAllowed("basic")
 	@Produces(MediaType.APPLICATION_JSON)
     @Transactional
 	public Response index() {
@@ -38,6 +38,7 @@ public class ProductResource {
 	@GET
 	@Path("{id}")
 	@Transactional
+	@RolesAllowed("basic")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response show(@PathParam("id") int id) {
 		Product product = repository.read(id);
@@ -50,8 +51,10 @@ public class ProductResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("basic")
     @Transactional
-	public Response create(Product product) {
+	public Response create(ProductRequest request) {
+		Product product = new Product(request.name(), request.description(), new Category(request.category()));
 		repository.create(product);
 		return Response.status(201).build();
 	}
@@ -69,21 +72,19 @@ public class ProductResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
     @Transactional
+	@RolesAllowed("basic")
 	public Response delete(@PathParam("id") long id) {
 		repository.delete(id);
 		return Response.ok().build();
 	}
 	
-	/**
-     *  Download Image File
-     */
-    @GET
-    @Path("/images")
-    @Produces("image/png")
+	@GET
+    @Path("/images/{name}")
+    @Produces("image/jpg")
     @PermitAll
-    public Response getImageFile() {
+    public Response getImageFile(@PathParam("name") String name) {
  
-        File file = new File("C:\\Users\\nikos\\Desktop\\TEST_FILES\\test.png");
+        File file = new File("/home/luiz/Imagens/"+name);
         ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=\"test_image_file.png\"");
         return response.build();

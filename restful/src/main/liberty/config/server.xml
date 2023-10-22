@@ -1,31 +1,64 @@
 <server description="restful">
 	<featureManager>
-		<feature>restfulWS-3.0</feature>
-		<feature>jsonb-2.0</feature>
-		<feature>jsonp-2.0</feature>
-		<feature>cdi-3.0</feature>
-		<feature>persistence-3.0</feature>
-		
-		<!-- https://openliberty.io/docs/latest/reference/feature/appSecurity-4.0.html -->
-		<feature>appSecurity-4.0</feature>
-		
+        <!-- https://openliberty.io/docs/latest/reference/feature/restfulWS-3.1.html -->
+		<feature>restfulWS-3.1</feature>
+        <!-- https://openliberty.io/docs/latest/reference/feature/jsonb-3.0.html -->
+		<feature>jsonb-3.0</feature>
+        <!-- https://openliberty.io/docs/latest/reference/feature/cdi-4.0.html -->
+        <feature>cdi-4.0</feature>
+        <!-- https://openliberty.io/docs/latest/reference/feature/appSecurity-5.0.html -->
+        <feature>persistence-3.1</feature>
+        <!-- https://openliberty.io/docs/latest/reference/feature/appSecurity-5.0.html -->
+		<feature>appSecurity-5.0</feature>
 		<!-- https://openliberty.io/docs/latest/reference/feature/beanValidation-3.0.html -->
 		<feature>beanValidation-3.0</feature>
 	</featureManager>
-	<variable name="default.http.port" defaultValue="5050" />
+
+    <variable name="default.http.port" defaultValue="5050" />
 	<variable name="default.https.port" defaultValue="5051" />
-	<httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
 		id="defaultHttpEndpoint" host="*" />
-	<application location="restful.war" type="war" context-root="/"></application>
-	<library id="mysqlLibrary">
+
+    <!-- MySQL -->
+    <!--
+    <library id="mysqlLibrary">
 		<fileset id="MySqlFileset" dir="${shared.resource.dir}"
 			includes="mysql-connector-j-8.0.32.jar" />
 	</library>
-	<dataSource jndiName="jdbc/local-mysql" transactional="false">
+
+    <dataSource jndiName="jdbc/local" transactional="false">
 		<jdbcDriver libraryRef="mysqlLibrary" />
 		<properties serverName="localhost" portNumber="3306"
-			databaseName="calango"
+			databaseName="restful"
 			user="root"
 			password="myroot" />
 	</dataSource>
+    -->
+    <!-- Derby -->
+    <!-- -->
+    <library id="derbyJDBCLib">
+        <fileset dir="${shared.resource.dir}/" includes="derby*.jar" />
+    </library>
+
+    <dataSource jndiName="jdbc/local">
+        <jdbcDriver libraryRef="derbyJDBCLib" />
+        <properties.derby.embedded databaseName="restful" createDatabase="create" />
+    </dataSource>
+    <!-- -->
+    <basicRegistry id="basic">
+        <user name="bob" password="bobpwd"/>
+        <user name="alice" password="alicepwd"/>
+    </basicRegistry>
+
+    <webApplication location="restful.war" type="war" context-root="/">
+        <application-bnd>
+            <security-role name="admin">
+                <user name="bob"/>
+            </security-role>
+            <security-role name="basic">
+                <user name="alice"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
 </server>
