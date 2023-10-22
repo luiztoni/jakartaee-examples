@@ -19,12 +19,12 @@ public class UserFaces implements Serializable {
     private String password;
 
     public String login() {
-        if (email.equals("admin@admin.com") && password.equals("admin_pwd")) {
+        if (email.equals("admin@admin.com") && password.equals("adminpwd")) {
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             SecurityContext.getContext().setValue("user", user);
-            return "dashboard";
+            return "home/dashboard.xhtml";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User not found!", "Invalid Credentials"));
         return null;
@@ -32,7 +32,7 @@ public class UserFaces implements Serializable {
 
     public String logout() {
         SecurityContext.getContext().logout();
-        return "login";
+		return "../login.xhtml";
     }
 
 	public String getEmail() {
