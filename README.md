@@ -18,7 +18,7 @@ mvn jetty:run
 ```
  * OpenLiberty:
 ```sh
-mvn open-liberty:run
+mvn liberty:run
 ```
 
 Observação: Para executar o projeto 'messaging' o 'messaging-broker' precisa esta rodando.
