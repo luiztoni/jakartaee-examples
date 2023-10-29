@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server description="jms producer and consumer">
 	<featureManager>
-		<feature>jakartaee-9.1</feature>
+		<feature>jakartaee-10.0</feature>
 	</featureManager>
 	<applicationManager autoExpand="true" />
 	<applicationMonitor updateTrigger="mbean" />
@@ -21,12 +21,12 @@
 			deliveryMode="NonPersistent" timeToLive="60000" priority="1"
 			readAhead="AsConnection" />
 	</jmsTopic>
-	<jmsActivationSpec id="caranguejo/QueueListener">
+	<jmsActivationSpec id="messaging/QueueListener">
 		<properties.wasJms destinationRef="jms/q"
 			destinationType="jakarta.jms.Queue"
 			remoteServerAddress="localhost:7276:BootStrapBasicMessaging" />
 	</jmsActivationSpec>
-	<jmsActivationSpec id="caranguejo/TopicListener">
+	<jmsActivationSpec id="messaging/TopicListener">
 		<properties.wasJms destinationRef="jms/t"
 			destinationType="jakarta.jms.Topic"
 			remoteServerAddress="localhost:7276:BootStrapBasicMessaging" />

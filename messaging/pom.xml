@@ -17,20 +17,13 @@
 		<dependency>
 			<groupId>jakarta.platform</groupId>
 			<artifactId>jakarta.jakartaee-api</artifactId>
-			<version>9.1.0</version>
+			<version>10.0.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.9.2</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.openliberty</groupId>
 			<artifactId>openliberty-runtime</artifactId>
-			<version>22.0.0.13</version>
+            <version>[23.0.0.9,)</version>
 			<type>zip</type>
 		</dependency>
 	</dependencies>
