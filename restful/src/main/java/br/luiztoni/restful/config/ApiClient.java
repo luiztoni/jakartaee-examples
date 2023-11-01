@@ -27,7 +27,7 @@ public final class ApiClient {
 		return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
 	}
 
-	public HttpResponse<String> postRequest(String uri, Object payload) throws IOException, InterruptedException {
+	public ResponseRecord postRequest(String uri, Object payload) throws IOException, InterruptedException {
 		Jsonb jsonb = JsonbBuilder.create();
 		String json = jsonb.toJson(payload);
 		HttpRequest.Builder builder = HttpRequest.newBuilder()
@@ -44,10 +44,10 @@ public final class ApiClient {
 		HttpResponse response = HttpClient.newBuilder()
 			.build()
 			.send(request, HttpResponse.BodyHandlers.discarding());
-		return response;
+		return new ResponseRecord("", response.statusCode());
 	}
 
-	public HttpResponse<String> putRequest(String uri, Object payload) throws IOException, InterruptedException {
+	public ResponseRecord putRequest(String uri, Object payload) throws IOException, InterruptedException {
 		Jsonb jsonb = JsonbBuilder.create();
 		String json = jsonb.toJson(payload);
 		HttpRequest.Builder builder = HttpRequest.newBuilder()
@@ -64,9 +64,10 @@ public final class ApiClient {
 		HttpResponse response = HttpClient.newBuilder()
 			.build()
 			.send(request, HttpResponse.BodyHandlers.discarding());
-		return response;
+		return new ResponseRecord("", response.statusCode());
 	}
-	public HttpResponse<String> getRequest(String uri) throws IOException, InterruptedException {
+
+	public ResponseRecord getRequest(String uri) throws IOException, InterruptedException {
 		HttpRequest.Builder builder = HttpRequest.newBuilder()
 			.GET()
 			.uri(URI.create(uri))
@@ -80,10 +81,10 @@ public final class ApiClient {
 		HttpResponse<String> response = HttpClient.newBuilder()
 			.build()
 			.send(request, HttpResponse.BodyHandlers.ofString());
-		return response;
+		return new ResponseRecord(response.body(), response.statusCode());
 	}
 
-	public HttpResponse<String> deleteRequest(String uri) throws IOException, InterruptedException {
+	public ResponseRecord deleteRequest(String uri) throws IOException, InterruptedException {
 		HttpRequest.Builder builder = HttpRequest.newBuilder()
 			.DELETE()
 			.uri(URI.create(uri))
@@ -97,7 +98,7 @@ public final class ApiClient {
 		HttpResponse response = HttpClient.newBuilder()
 			.build()
 			.send(request, HttpResponse.BodyHandlers.discarding());
-		return response;
+		return new ResponseRecord("", response.statusCode());
 	}
 }
 

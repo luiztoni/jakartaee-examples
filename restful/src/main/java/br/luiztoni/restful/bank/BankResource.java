@@ -17,11 +17,12 @@ import jakarta.ws.rs.core.Response;
 @Path("/banks")
 public class BankResource {
 
+	private Client client = ClientBuilder.newClient();
+
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
     public Response index() {
-		Client client = ClientBuilder.newClient();
 		Response response = client.target("http://localhost:3000/api/banks/v1").request(MediaType.APPLICATION_JSON_TYPE).get();
 		
 		String payload = response.readEntity(String.class);
@@ -35,7 +36,6 @@ public class BankResource {
 	@Path("{id}")
 	@PermitAll
     public Response show(@PathParam("id") int id) {
-		Client client = ClientBuilder.newClient();
 		Response response = client.target("http://localhost:3000/api/banks/v1/"+id).request(MediaType.APPLICATION_JSON_TYPE).get();
 		
 		String payload = response.readEntity(String.class);
