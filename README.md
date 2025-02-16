@@ -22,6 +22,6 @@ mvn liberty:run
 ```
 
 Observação: Para executar o projeto 'messaging' o 'messaging-broker' precisa esta rodando.
-
+Observação: Para gerar um fatjar use o comando mvn liberty:package -Dinclude=runnable
 
 #### License Apache License 2.0 Copyright (c) 2023 Luiz Toni
